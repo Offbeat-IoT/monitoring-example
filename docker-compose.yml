@@ -1,0 +1,73 @@
+services:
+  grafana:
+    container_name: monitoring-grafana
+    image: grafana/grafana:latest
+    hostname: rpi-grafana
+    restart: unless-stopped
+#    user: "472"
+    networks:
+      - monitoring-network
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./grafana/.env
+    volumes:
+      # /!\ To be modified depending on your needs /!\
+      - offbeat-iot-grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
+
+  alertmanager:
+    container_name: monitoring-alertmanager
+    image: prom/alertmanager:v0.27.0
+    restart: unless-stopped
+    ports:
+      - "9093:9093"
+    networks:
+      - monitoring-network
+    volumes:
+      - "./alertmanager/data:/config"
+      - offbeat-iot-alertmanager-data:/data
+    command: --config.file=/config/alertmanager.yml --log.level=debug
+
+  prometheus:
+    container_name: monitoring-prometheus
+    image: prom/prometheus:latest
+    hostname: rpi-prometheus
+    restart: unless-stopped
+#    user: "nobody"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=1y'
+      - '--log.level=debug'
+      # /!\ Uncomment the following line to set a size limit for the Prometheus database /!\
+    #      - '--storage.tsdb.retention.size=10GB'
+    ports:
+      - '9090:9090'
+    networks:
+      - monitoring-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    expose:
+      - 9090
+    volumes:
+      # /!\ To be modified depending on your needs /!\
+      - ./prometheus/data/:/etc/prometheus/
+      - offbeat-iot-prometheus-data:/prometheus/
+
+networks:
+ monitoring-network:
+    driver: bridge
+volumes:
+#  create by doing this:
+#  docker volume create offbeat-iot-prometheus-data
+  offbeat-iot-prometheus-data:
+    external: true
+  #  docker volume create offbeat-iot-grafana-data
+  offbeat-iot-grafana-data:
+    external: true
+  #  docker volume create offbeat-iot-alertmanager-data
+  offbeat-iot-alertmanager-data:
+    external: true
