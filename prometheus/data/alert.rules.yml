@@ -1,0 +1,19 @@
+groups:
+  - name: Offbeat-IoT
+    rules:
+      - alert: DeviceIsOffline
+        expr: up{device="insert_friendly_name_here"}==0
+        for: 15s  # Specify that the alert should persist for at least 15 seconds to be considered valid.
+        labels:
+          severity: critical  # Assign a label 'severity' with the value 'critical' to the alert.
+        annotations:
+          summary: "OMG! The device is offline"  # Provide a concise summary for the alert.
+          description: "Go reboot it."  # Provide a detailed description for the alert.
+      - alert: ItsTooDamnHot
+        expr: up{device="insert_friendly_name_here"}==0
+        for: 1m  # Specify that the alert should persist for at least 15 seconds to be considered valid.
+        labels:
+          severity: warning  # Assign a label 'severity' with the value 'critical' to the alert.
+        annotations:
+          summary: "Its pretty hot in here"  # Provide a concise summary for the alert.
+          description: "Open a window or turn on the AC"  # Provide a detailed description for the alert.

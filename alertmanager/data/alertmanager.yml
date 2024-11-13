@@ -1,0 +1,14 @@
+route:
+  receiver: 'mail'
+  repeat_interval: 20m
+  group_by: [ 'alertname' ]
+  group_wait: 10s
+receivers:
+  - name: 'mail'
+    email_configs:
+      - smarthost: 'smtp.gmail.com:465'
+        require_tls: false
+        auth_username: 'your google auth username'
+        auth_password: "your google auth password"
+        from: 'from email'
+        to: 'to email'
