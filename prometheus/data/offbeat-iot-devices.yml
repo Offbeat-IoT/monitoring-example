@@ -29,12 +29,3 @@ scrape_configs:
     basic_auth:
       username: "<your websocket users username>"
       password: "<your websocket users password>"
-  - job_name: 'myOffbeatIotDevices'
-    metrics_path: '/api/devices/prometheus'
-    scrape_interval: 35s
-    static_configs:
-#      change this to real dns name
-      - targets: ['offbeat-iot.com']
-    basic_auth:
-      username: "<your websocket users username>"
-      password: "<your websocket users password>"
