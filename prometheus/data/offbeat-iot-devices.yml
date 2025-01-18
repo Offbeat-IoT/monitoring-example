@@ -20,11 +20,12 @@ rule_files:
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
 scrape_configs:
+  #tag::scrapeconfig[]
   - job_name: 'myOffbeatIotDevice'
     metrics_path: '/api/devices/<your devices endpoint id>/prometheus'
     scrape_interval: 35s
+  #end::scrapeconfig[]
     static_configs:
-#      change this to real dns name
       - targets: ['offbeat-iot.com']
     basic_auth:
       username: "<your websocket users username>"
