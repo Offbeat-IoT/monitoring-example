@@ -28,7 +28,7 @@ If it sends that data to [Offbeat-Iot](https://offbeat-iot.com) over websockets,
 
 Then when you call this endpoint and use the username/password of a websocket user 
 
-    https://offbeat-iot.com/api/devices/<the endpooint id of your device>/prometheus
+    https://offbeat-iot.com/api/devices/<the endpoint id of your device>/prometheus
 
 Then you will see data like this:
 
@@ -90,3 +90,6 @@ If you then navigate to
 
 You will enter grafana. Where you can log in using admin/admin as user and password. Grafana will as you to set a more secure password.
 
+Then, you can update the example dashboard with your own device.
+
+Or, [create your own dashboard](docs/new-dashboard.md)
