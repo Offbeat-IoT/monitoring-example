@@ -2,9 +2,7 @@ services:
   grafana:
     container_name: monitoring-grafana
     image: grafana/grafana:latest
-    hostname: rpi-grafana
     restart: unless-stopped
-#    user: "472"
     networks:
       - monitoring-network
     ports:
@@ -20,7 +18,7 @@ services:
 
   alertmanager:
     container_name: monitoring-alertmanager
-    image: prom/alertmanager:v0.27.0
+    image: prom/alertmanager:latest
     restart: unless-stopped
     ports:
       - "9093:9093"
@@ -34,7 +32,6 @@ services:
   prometheus:
     container_name: monitoring-prometheus
     image: prom/prometheus:latest
-    hostname: rpi-prometheus
     restart: unless-stopped
 #    user: "nobody"
     command:
